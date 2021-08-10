@@ -1,0 +1,37 @@
+class Solution {
+    final int[][] directions={{0,1},{0,-1},{1,0},{-1,0}};
+    public int[][] updateMatrix(int[][] mat) {
+     if(mat==null || mat.length==0)
+         return mat;
+        int m=mat.length;
+        int n=mat[0].length;
+        Queue<int[]> qq=new LinkedList();
+        boolean[][] visited=new boolean[m][n];
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(mat[i][j]==0){
+                    qq.offer(new int[]{i,j});
+                    visited[i][j]=true;
+                }
+            }
+        }
+        while(!qq.isEmpty()){
+            int size=qq.size();
+            for(int i=0;i<size;i++){
+                int[] current=qq.poll();
+                int curx=current[0];
+                int cury=current[1];
+                for(int[] dir:directions){
+                    int x=curx+dir[0];
+                    int y=cury+dir[1];
+                    if(x<0 || x>m-1 || y<0 || y>n-1 || visited[x][y])
+                        continue;
+                    mat[x][y]=mat[curx][cury]+1;
+                    qq.offer(new int[]{x,y});
+                    visited[x][y]=true;
+                }
+            }
+        }
+     return mat;
+    }
+}
